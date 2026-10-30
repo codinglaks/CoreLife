@@ -5,3 +5,4 @@ backend/*.pyc
 backend/*.log
 *.log
 .vscode
+node_modules/
