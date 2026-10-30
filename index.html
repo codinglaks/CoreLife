@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoreLife | Lakshya Singh</title>
+<script src="theme.js"></script>
+
+    <link rel="stylesheet" href="index_style.css">
+
+    <!-- Fonts & icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="blur-orb orb-1"></div>
+    <div class="blur-orb orb-2"></div>
+    <div class="blur-orb orb-3"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-wrapper">
+            <a href="career/career.html" class="brand-left" aria-label="Go to Career page">
+                <img src="media/logo-img/career_logo_pic.jpeg" alt="CoreLife logo" class="brand-logo-small">
+                <div class="brand-text">
+                    <h1>Core<span>Life</span></h1>
+                </div>
+            </a>
+
+            <div class="nav-right">
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme">
+                    <i class="fa-solid fa-moon"></i>
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+
+                <button type="button" class="menu-toggle" id="menuToggle" aria-haspopup="true" aria-expanded="false" aria-label="Open navigation menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <nav class="nav-menu" id="navMenu" aria-hidden="true">
+                    <a href="#top" class="nav-menu-link" data-scroll>
+                        <i class="fa-solid fa-house"></i> Home
+                    </a>
+                    <a href="career/career.html" class="nav-menu-link">
+                        <i class="fa-solid fa-id-card"></i> Career
+                    </a>
+                    <a href="form/form.html" class="nav-menu-link">
+                        <i class="fa-solid fa-file-signature"></i> Form
+                    </a>
+                    <a href="gaming/gaming.html" class="nav-menu-link">
+                        <i class="fa-solid fa-gamepad"></i> Gaming
+                    </a>
+                    <a href="tech/tech.html" class="nav-menu-link">
+                        <i class="fa-solid fa-microchip"></i> Tech
+                    </a>
+                    <a href="visual-artist/pic_vdo.html" class="nav-menu-link">
+                        <i class="fa-solid fa-camera-retro"></i> Pic &amp; Vdo
+                    </a>
+                    <a href="support/support.html" class="nav-menu-link" data-scroll>
+                        <i class="fa-solid fa-heart"></i> Support
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main id="top">
+        <!-- About -->
+        <section id="about" class="about-section">
+            <div class="about-photo-wrapper">
+                <span class="dot-pattern" aria-hidden="true"></span>
+                <span class="outline-shape" aria-hidden="true"></span>
+                <div class="about-photo-frame">
+                    <img src="media/logo-img/career_logo_pic.jpeg" alt="Lakshya Singh" class="about-photo">
+                </div>
+            </div>
+
+            <div class="about-content">
+                <span class="location-badge">
+                    <i class="fa-solid fa-location-dot"></i> Prayagraj, Uttar Pradesh
+                </span>
+                <h2 class="about-name">Lakshya Singh</h2>
+                <p class="about-tagline">Web Developer &amp; Creative Freelancer</p>
+                <p class="about-text">
+                    I am a passionate and creative web developer from Prayagraj, Uttar Pradesh. I've completed
+                    my Bachelor of Computer Applications (BCA), studying programming, web development and
+                    core IT concepts. Beyond code, I'm drawn to photography, video editing and exploring new
+                    technology — I believe in learning, improving, and turning creative ideas into meaningful
+                    projects.
+                </p>
+                <a href="https://openinapp.link/7kt6c" target="_blank" rel="noopener" class="cta-btn">
+                    <span>Explore My Work</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Profiles -->
+        <section id="profiles" class="profiles-section">
+            <div class="section-heading">
+                <h2>Profiles</h2>
+                <p>A quick look at the different spaces I create in — tap any of them to explore.</p>
+            </div>
+
+            <div class="profiles-grid">
+                <article class="profile-card">
+                    <div class="profile-banner">
+                        <img src="media/banner-img/gaming_banner_pic.png" alt="The Gaminggram banner" class="profile-banner-img">
+                        <div class="profile-banner-overlay"></div>
+                        <div class="profile-banner-info">
+                            <img src="media/logo-img/gaming_profile_pic.png" alt="The Gaminggram logo" class="profile-logo">
+                            <span class="profile-name">The Gaminggram</span>
+                        </div>
+                    </div>
+                    <a href="gaming/gaming.html" class="profile-visit-btn">
+                        <span>Visit Site</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </article>
+
+                <article class="profile-card">
+                    <div class="profile-banner">
+                        <img src="media/banner-img/tech_banner_pic.png" alt="Bit Sa Gyan banner" class="profile-banner-img">
+                        <div class="profile-banner-overlay"></div>
+                        <div class="profile-banner-info">
+                            <img src="media/logo-img/tech_profile_pic.png" alt="Bit Sa Gyan logo" class="profile-logo">
+                            <span class="profile-name">Bit Sa Gyan</span>
+                        </div>
+                    </div>
+                    <a href="tech/tech.html" class="profile-visit-btn">
+                        <span>Visit Site</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </article>
+
+                <article class="profile-card">
+                    <div class="profile-banner">
+                        <img src="media/banner-img/Visual_artist_banner_pic.png" alt="Crazy Akshat banner" class="profile-banner-img">
+                        <div class="profile-banner-overlay"></div>
+                        <div class="profile-banner-info">
+                            <img src="media/logo-img/visual_artist_logo_pic.png" alt="Crazy Akshat logo" class="profile-logo">
+                            <span class="profile-name script-name">𝒞𝓇𝒶𝓏𝓎 𝒜𝓀𝓈𝒽𝒶𝓉</span>
+                        </div>
+                    </div>
+                    <a href="visual-artist/pic_vdo.html" class="profile-visit-btn">
+                        <span>Visit Site</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Collaboration & support -->
+        <div class="bottom-grid">
+            <section id="collab" class="glass-card">
+                <h2 class="card-heading">
+                    <i class="fa-solid fa-handshake"></i> Collaboration Form
+                </h2>
+                <p class="card-text">
+                    Interested in working together — a sponsored feature, a creative collaboration, or a
+                    long-term partnership? I'd love to hear about it. Fill out the form and I'll get back to
+                    you shortly.
+                </p>
+                <a href="form/form.html" class="glow-btn">
+                    <span>Fill Collaboration Form</span>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </a>
+            </section>
+
+            <section id="support" class="glass-card">
+                <h2 class="card-heading">
+                    <i class="fa-solid fa-heart"></i> Support
+                </h2>
+                <p class="card-text">
+                    If you're enjoying the work across these spaces and want to support what I build, reach
+                    out through the same form — every message helps me keep learning, creating, and growing.
+                </p>
+                <a href="support/support.html" class="glow-btn">
+                    <span>Get in Touch</span>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> CoreLife. Made with <i class="fa-solid fa-heart"></i> by Lakshya Singh.</p>
+    </footer>
+
+    <script src="index_function.js"></script>
+</body>
+</html>

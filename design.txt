@@ -1,0 +1,121 @@
+# CoreLife — Design Overview
+
+CoreLife is a parent brand and hub site that links to several sub-sites, a shared collaboration form and a support page. The frontend is plain HTML/CSS/JS. A small Python (Flask) backend handles the form and payments. Everything is deployed together on Cloudflare Workers with Static Assets.
+
+---
+
+## 1. Sites
+
+| Site | Brand | Purpose |
+|---|---|---|
+| Home | CoreLife | Hub with About, profile banners and links to every site |
+| Career | Lakshya Singh | Professional profile / portfolio |
+| Gaming | The Gaminggram | Gaming content and profiles |
+| Tech | Bit Sa Gyan | Tech content |
+| Pic & Vdo | Crazy Akshat | Visual artist / content creator |
+| Form | Collaboration Form | Collaboration requests |
+| Support | Support | Ways to support the projects |
+
+## 2. Site Map
+
+```
+                    index.html  (Home / Hub)
+                          |
+   +--------+--------+----+----+----------+---------+
+   |        |        |         |          |         |
+career/  gaming/   tech/  visual-artist/ form/   support/
+                          |
+                      backend/  (Flask API)
+```
+
+Shared header menu: Home, Career, Form, Gaming, Tech, Pic & Vdo, Support.
+The three sub-brand sites share a quarter-circle fan menu on the header logo that links to the other sites.
+
+## 3. Project Structure
+
+```
+CoreLife/
+├── index.html
+├── index_style.css
+├── index_function.js
+├── theme.js                # shared light/dark theme toggle
+├── README.md
+├── design.txt
+├── package.json
+├── pyproject.toml
+├── wrangler.jsonc          # Cloudflare config
+├── .gitignore
+│
+├── backend/
+│   ├── app.py              # Flask app
+│   ├── worker.py           # Cloudflare Python Worker entry
+│   ├── requirements.txt
+│   └── .env.example        # variable names only, no values
+│
+├── career/
+├── gaming/
+├── tech/
+├── visual-artist/
+├── form/
+├── support/
+└── media/                  # banner, logo and other images
+```
+
+Each page follows the pattern `<name>.html`, `<name>_style.css`, `<name>_function.js`.
+
+**Conventions**
+- Plain HTML, CSS and JavaScript, no build step for the frontend.
+- Local relative image paths, no external image hosting.
+- Light and dark themes on every page.
+- Fully responsive from small phones to desktop.
+
+## 4. Pages and Features
+
+### Home (`index.html`)
+- Header with logo, brand name, theme toggle and dropdown menu.
+- About section with photo, tagline, bio and a call-to-action button.
+- Profile cards for Gaming, Tech and Crazy Akshat.
+- Collaboration and Support sections.
+- Black/white base with pink, red and purple accents.
+
+### Career
+- Multi-section professional profile.
+- Theme toggle, mesh-gradient background and scroll animations.
+- Circular portrait logo with gradient ring.
+
+### Gaming (The Gaminggram)
+- Glassy blur mesh background, scroll-reveal animations.
+- Card spotlight effect and Ken Burns banner zoom.
+- Collaboration section and support section.
+
+### Tech (Bit Sa Gyan)
+- Space Grotesk font with an electric blue / violet / crimson-pink palette.
+- Social links grid and collaboration section.
+- Two-column desktop layout used as a reference by the other sites.
+
+### Pic & Vdo (Crazy Akshat)
+- Navy, gold and crimson palette with a script wordmark.
+- Sections: About, Social Connections, Contact, Collaboration, Support.
+- Equal-height two-column desktop layout, centered About on mobile.
+- Theme-colored scrollbar and highlights.
+
+### Collaboration Form
+- One shared form used by all sites.
+- Submissions are sent to the owner by email through the backend.
+
+### Support
+- Multiple ways to support: online payment options and QR/UPI.
+- Payments are created and verified by the backend.
+
+## 5. Backend
+
+| File | Role |
+|---|---|
+| `backend/app.py` | Flask app with the form-email and payment routes |
+| `backend/worker.py` | Entry point for Cloudflare Python Workers |
+| `backend/requirements.txt` | Python dependencies |
+| `backend/.env.example` | Lists required environment variable names |
+| `pyproject.toml`, `package.json` | Tooling and dependency config |
+| `wrangler.jsonc` | Worker name, static assets folder and settings |
+
+Configuration and credentials are supplied through environment variables and are never stored in the repository.

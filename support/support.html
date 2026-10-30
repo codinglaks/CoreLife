@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — CoreLife</title>
+<script src="../theme.js"></script>
+<meta name="description" content="Support CoreLife via UPI (India) or PayPal (worldwide).">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="support_style.css">
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg class="icon-sprite" aria-hidden="true">
+  <defs>
+    <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><g stroke-linecap="round"><path d="M12 2.5v2.6"/><path d="M12 18.9v2.6"/><path d="M4.2 4.2l1.9 1.9"/><path d="M17.9 17.9l1.9 1.9"/><path d="M2.5 12h2.6"/><path d="M18.9 12h2.6"/><path d="M4.2 19.8l1.9-1.9"/><path d="M17.9 6.1l1.9-1.9"/></g></symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.5 14.7A8.5 8.5 0 1 1 9.3 3.5a7 7 0 0 0 11.2 11.2Z"/></symbol>
+    <symbol id="icon-heart" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.7-9.3C.8 7.8 2.4 4.5 5.8 4a5 5 0 0 1 6.2 2.4A5 5 0 0 1 18.2 4c3.4.5 5 3.8 3.5 7.2-2.2 4.7-9.7 9.3-9.7 9.3Z"/></symbol>
+    <symbol id="icon-flag-in" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8.5v7"/><path d="M8.8 12h6.4"/></symbol>
+    <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3Z"/></symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></symbol>
+    <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m4 12.5 5.5 5.5L20 7"/></symbol>
+  </defs>
+</svg>
+
+<!-- Header -->
+<header class="site-header" id="top">
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="../index.html" class="back-btn" id="backBtn" aria-label="Back to CoreLife home" title="Back to CoreLife home">
+        <svg class="icon"><use href="#icon-arrow-left"></use></svg>
+        <span class="back-label">Back</span>
+      </a>
+      <span class="brand">Core<span class="brand-dot">.</span>Support</span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="icon icon-sun-ico"><use href="#icon-sun"></use></svg>
+      <svg class="icon icon-moon-ico"><use href="#icon-moon"></use></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="support-section">
+
+    <div class="support-intro" data-reveal>
+      <p class="eyebrow"><svg class="icon icon-sm"><use href="#icon-heart"></use></svg> Support CoreLife</p>
+      <h1 class="support-title">Support My Work</h1>
+      <p class="support-sub">
+        Everything here — the sites, the tools, the content — is built and kept running in my own time.
+        If any of it has helped or entertained you, a contribution of any size genuinely helps keep it going,
+        and means a lot. Thank you for even considering it.
+      </p>
+    </div>
+
+    <div class="region-grid">
+
+      <!-- India -->
+      <article class="region-card region-card--india" data-reveal>
+        <div class="region-head">
+          <span class="region-icon"><svg class="icon"><use href="#icon-flag-in"></use></svg></span>
+          <h2>Supporters in India</h2>
+        </div>
+        <p class="region-note">
+          If you're in India, UPI is usually the easiest option — scan the QR code below with
+          Slice or any UPI app, no fees, instant. PayPal also works if you'd rather use that.
+        </p>
+
+        <!-- UPI block -->
+        <div class="upi-block">
+          <div class="upi-qr">
+            <img src="../media/qr-img/qr_img_2.png" alt="UPI QR code for CoreLife">
+          </div>
+          <div class="upi-details">
+            <span class="upi-label">UPI ID</span>
+            <div class="upi-id-row">
+              <span class="upi-id" id="upiId">@crzylaks.slc</span>
+              <button class="upi-copy-btn" id="upiCopyBtn" type="button">
+                <svg class="icon icon-sm"><use href="#icon-copy"></use></svg>
+                Copy
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p class="divider-text">or use PayPal</p>
+
+        <p class="fixed-amount-note">You'll be charged <span class="fixed-amount-value" data-amount-display>$5.00</span> USD via PayPal</p>
+
+        <div class="paypal-button-slot" id="paypal-button-india"></div>
+        <p class="paypal-status" id="paypal-status-india" role="alert"></p>
+
+        <div class="thankyou-card" id="thankyou-india">
+          <div class="thankyou-icon"><svg class="icon"><use href="#icon-check"></use></svg></div>
+          <h3>Thank you!</h3>
+          <p>Your support means a lot — thank you for helping keep this going.</p>
+        </div>
+      </article>
+
+      <!-- International -->
+      <article class="region-card region-card--intl" data-reveal>
+        <div class="region-head">
+          <span class="region-icon"><svg class="icon"><use href="#icon-globe"></use></svg></span>
+          <h2>International Supporters</h2>
+        </div>
+        <p class="region-note">
+          For supporters outside India, PayPal is currently the only supported option —
+          pay securely through PayPal below.
+        </p>
+
+        <p class="fixed-amount-note">You'll be charged <span class="fixed-amount-value" data-amount-display>$5.00</span> USD via PayPal</p>
+
+        <div class="paypal-button-slot" id="paypal-button-intl"></div>
+        <p class="paypal-status" id="paypal-status-intl" role="alert"></p>
+
+        <div class="thankyou-card" id="thankyou-intl">
+          <div class="thankyou-icon"><svg class="icon"><use href="#icon-check"></use></svg></div>
+          <h3>Thank you!</h3>
+          <p>Your support means a lot — thank you for helping keep this going.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+</main>
+
+<script src="support_function.js"></script>
+</body>
+</html>

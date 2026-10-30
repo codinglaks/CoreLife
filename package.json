@@ -1,0 +1,9 @@
+{
+  "name": "corelife",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Provides the Wrangler CLI used by pywrangler",
+  "devDependencies": {
+    "wrangler": "^4.155.0"
+  }
+}

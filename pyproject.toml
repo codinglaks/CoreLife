@@ -1,0 +1,15 @@
+[project]
+name = "corelife"
+version = "1.0.0"
+description = "CoreLife backend (Flask) on Cloudflare Python Workers"
+requires-python = ">=3.12"
+dependencies = [
+    "flask",
+    "requests",
+]
+
+[dependency-groups]
+dev = [
+    "workers-py",
+    "workers-runtime-sdk",
+]

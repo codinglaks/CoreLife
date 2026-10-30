@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collab Form — CoreLife</title>
+<script src="../theme.js"></script>
+<meta name="description" content="Send a collaboration request through CoreLife's collaboration form.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="form_style.css">
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg class="icon-sprite" aria-hidden="true">
+  <defs>
+    <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><g stroke-linecap="round"><path d="M12 2.5v2.6"/><path d="M12 18.9v2.6"/><path d="M4.2 4.2l1.9 1.9"/><path d="M17.9 17.9l1.9 1.9"/><path d="M2.5 12h2.6"/><path d="M18.9 12h2.6"/><path d="M4.2 19.8l1.9-1.9"/><path d="M17.9 6.1l1.9-1.9"/></g></symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.5 14.7A8.5 8.5 0 1 1 9.3 3.5a7 7 0 0 0 11.2 11.2Z"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h13.5"/><path d="m13 6.5 6 5.5-6 5.5"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m4 12.5 5.5 5.5L20 7"/></symbol>
+    <symbol id="icon-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.7 2.7L16.3 9"/></symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24"><path d="M12 8.5v5"/><circle cx="12" cy="16.3" r=".4" fill="currentColor" stroke="none"/><path d="M10.6 3.6 2.8 18a1.5 1.5 0 0 0 1.3 2.2h15.8a1.5 1.5 0 0 0 1.3-2.2L13.4 3.6a1.5 1.5 0 0 0-2.8 0Z"/></symbol>
+    <symbol id="icon-controller" viewBox="0 0 24 24"><rect x="2.5" y="8" width="19" height="10" rx="4"/><path d="M7.5 11v4"/><path d="M5.5 13h4"/><circle cx="15.5" cy="12" r=".4" fill="currentColor" stroke="none"/><circle cx="18" cy="14.2" r=".4" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="icon-code" viewBox="0 0 24 24"><path d="m8.5 8-4.5 4 4.5 4"/><path d="m15.5 8 4.5 4-4.5 4"/><path d="M13.5 5.5 10.5 18.5"/></symbol>
+    <symbol id="icon-spark" viewBox="0 0 24 24"><path d="M12 2.5c.6 3.4 2.6 5.4 6 6-3.4.6-5.4 2.6-6 6-.6-3.4-2.6-5.4-6-6 3.4-.6 5.4-2.6 6-6Z"/><path d="M19 15.5c.3 1.6 1.2 2.5 2.8 2.8-1.6.3-2.5 1.2-2.8 2.8-.3-1.6-1.2-2.5-2.8-2.8 1.6-.3 2.5-1.2 2.8-2.8Z"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="m10 9 5 3-5 3Z"/></symbol>
+    <symbol id="icon-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v11H9l-4 3.5v-3.5H4Z"/></symbol>
+    <symbol id="icon-camera" viewBox="0 0 24 24"><path d="M4 8.5h3l1.5-2h7l1.5 2h3v11H4z"/><circle cx="12" cy="14" r="3.4"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 21.5s7-6.4 7-12A7 7 0 0 0 5 9.5c0 5.6 7 12 7 12Z"/><circle cx="12" cy="9.5" r="2.4"/></symbol>
+    <symbol id="icon-flash" viewBox="0 0 24 24"><path d="M13 2.5 4.5 14h6l-1 7.5L18.5 10h-6Z"/></symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.5 20.5c1.4-4 4-5.8 7.5-5.8s6.1 1.8 7.5 5.8"/></symbol>
+    <symbol id="icon-tag" viewBox="0 0 24 24"><path d="M11 3.5H5v6l9.5 9.5a1.8 1.8 0 0 0 2.5 0l3.5-3.5a1.8 1.8 0 0 0 0-2.5Z"/><circle cx="8.2" cy="7" r="1.1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="icon-smartphone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></symbol>
+    <symbol id="icon-monitor" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17.5V21"/></symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L12 16.9 6.4 20l1.4-6.2-4.8-4.3 6.4-.6Z"/></symbol>
+    <symbol id="icon-badge" viewBox="0 0 24 24"><path d="M12 3 4.5 6v6c0 4.8 3.2 7.9 7.5 9 4.3-1.1 7.5-4.2 7.5-9V6Z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+    <symbol id="icon-gift" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="12" rx="1.5"/><path d="M3 13h18"/><path d="M12 9v12"/><path d="M8 9c-1.8 0-3-1.2-3-3s1.5-2.5 3-1.5 3 3 4 4.5c1-1.5 2.5-3.5 4-4.5s3-.5 3 1.5-1.2 3-3 3"/></symbol>
+    <symbol id="icon-link" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"/><path d="M11 6.5 13.3 4.2a3.3 3.3 0 0 1 4.7 4.7L15.5 11.2"/><path d="M13 17.5 10.7 19.8a3.3 3.3 0 0 1-4.7-4.7L8.5 12.8"/></symbol>
+    <symbol id="icon-layers" viewBox="0 0 24 24"><path d="m12 3.5 8.5 4.5-8.5 4.5-8.5-4.5Z"/><path d="m3.5 13 8.5 4.5 8.5-4.5"/><path d="m3.5 17 8.5 4.5 8.5-4.5"/></symbol>
+    <symbol id="icon-infinity" viewBox="0 0 24 24"><path d="M7 9a3.5 3.5 0 1 0 0 7c2.5 0 3.5-1.8 5-3.5s2.5-3.5 5-3.5a3.5 3.5 0 1 1 0 7c-2.5 0-3.5-1.8-5-3.5S9.5 9 7 9Z"/></symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="15.5" rx="2"/><path d="M3 10h18"/><path d="M8 3v4.5"/><path d="M16 3v4.5"/></symbol>
+    <symbol id="icon-phone" viewBox="0 0 24 24"><path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2C10.5 18.8 5.2 13.5 4.5 6.2A2 2 0 0 1 6.5 3.5Z"/></symbol>
+    <symbol id="icon-message-circle" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 1 0 4.9 15.4L21 20l-1.2-4A8.5 8.5 0 0 0 12 3.5Z"/></symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></symbol>
+    <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.8 5.8 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.8-3.8-9S9.5 5.5 12 3Z"/></symbol>
+    <symbol id="icon-briefcase" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="11" rx="2"/><path d="M8.5 8V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></symbol>
+    <symbol id="icon-hash" viewBox="0 0 24 24"><path d="M5 9h14"/><path d="M5 15h14"/><path d="M10 4 8 20"/><path d="M16 4l-2 16"/></symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5.5"/><path d="m11 6.5-6 5.5 6 5.5"/></symbol>
+  </defs>
+</svg>
+
+<!-- Header -->
+<header class="site-header" id="top">
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="../index.html" class="back-btn" id="backBtn" aria-label="Go back">
+        <svg class="icon"><use href="#icon-arrow-left"></use></svg>
+      </a>
+      <span class="brand">Collab Form</span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="icon icon-sun-ico"><use href="#icon-sun"></use></svg>
+      <svg class="icon icon-moon-ico"><use href="#icon-moon"></use></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="form-section">
+
+    <div class="form-intro" data-reveal>
+      <p class="eyebrow"><svg class="icon icon-sm"><use href="#icon-spark"></use></svg> CoreLife Collaboration</p>
+      <h1 class="form-title">Let's Collaborate</h1>
+      <p class="form-sub">Fill in the details below and I'll get back to you as soon as possible. Fields marked <span class="req">*</span> are required — everything else is optional.</p>
+    </div>
+
+    <!-- Form -->
+    <form class="collab-form" id="collabForm" novalidate data-reveal>
+
+      <!-- Your Details -->
+      <div class="form-block">
+        <h2 class="block-title">Your Details</h2>
+
+        <div class="field">
+          <label class="field-label" for="fullName">
+            <svg class="icon icon-sm"><use href="#icon-user"></use></svg>
+            Your Full Name <span class="req" aria-hidden="true">*</span>
+          </label>
+          <input type="text" id="fullName" name="fullName" class="field-input" placeholder="e.g. Priya Sharma" autocomplete="name" required>
+          <p class="field-error" id="fullName-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="brandName">
+            <svg class="icon icon-sm"><use href="#icon-tag"></use></svg>
+            Brand Name <span class="opt">(optional)</span>
+          </label>
+          <input type="text" id="brandName" name="brandName" class="field-input" placeholder="Your brand or company name" autocomplete="organization">
+        </div>
+      </div>
+
+      <!-- Collaboration Setup -->
+      <div class="form-block">
+        <h2 class="block-title">Collaboration Setup</h2>
+
+        <fieldset class="field">
+          <legend class="field-label">Select Channel <span class="req" aria-hidden="true">*</span></legend>
+          <div class="option-group" data-group="channel">
+            <label class="option-chip" style="--chip-accent:#9B3DFC;--chip-accent-2:#FF3D71;">
+              <input type="radio" name="channel" value="The Gaminggram" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-controller"></use></svg></span>
+              <span class="chip-label">The Gaminggram</span>
+            </label>
+            <label class="option-chip" style="--chip-accent:#3D8BFF;--chip-accent-2:#FF2F66;">
+              <input type="radio" name="channel" value="Bit Sa Gyan" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-code"></use></svg></span>
+              <span class="chip-label">Bit Sa Gyan</span>
+            </label>
+            <label class="option-chip" style="--chip-accent:#7C4DFF;--chip-accent-2:#E63969;">
+              <input type="radio" name="channel" value="Crazy Akshat" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-spark"></use></svg></span>
+              <span class="chip-label">Crazy Akshat</span>
+            </label>
+          </div>
+          <p class="field-error" id="channel-error" role="alert"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="field-label">Select Platform <span class="req" aria-hidden="true">*</span></legend>
+          <div class="option-group option-group--platform" data-group="platform">
+            <label class="option-chip" style="--chip-accent:#FF3B30;--chip-accent-2:#FF3B30;">
+              <input type="radio" name="platform" value="YouTube" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-play"></use></svg></span>
+              <span class="chip-label">YouTube</span>
+            </label>
+            <label class="option-chip" style="--chip-accent:#1877F2;--chip-accent-2:#1877F2;">
+              <input type="radio" name="platform" value="Facebook" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-chat"></use></svg></span>
+              <span class="chip-label">Facebook</span>
+            </label>
+            <label class="option-chip" style="--chip-accent:#E1306C;--chip-accent-2:#F77737;">
+              <input type="radio" name="platform" value="Instagram" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-camera"></use></svg></span>
+              <span class="chip-label">Instagram</span>
+            </label>
+            <label class="option-chip" style="--chip-accent:#E60023;--chip-accent-2:#E60023;">
+              <input type="radio" name="platform" value="Pinterest" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-pin"></use></svg></span>
+              <span class="chip-label">Pinterest</span>
+            </label>
+            <label class="option-chip option-chip--dark-icon" style="--chip-accent:#FFFC00;--chip-accent-2:#FFFC00;">
+              <input type="radio" name="platform" value="Snapchat" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-flash"></use></svg></span>
+              <span class="chip-label">Snapchat</span>
+            </label>
+          </div>
+          <p class="field-error" id="platform-error" role="alert"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="field-label">Select Video Format <span class="req" aria-hidden="true">*</span></legend>
+          <div class="option-group" data-group="videoFormat">
+            <label class="option-chip">
+              <input type="radio" name="videoFormat" value="Shorts / Reels" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-smartphone"></use></svg></span>
+              <span class="chip-label">Shorts / Reels</span>
+            </label>
+            <label class="option-chip">
+              <input type="radio" name="videoFormat" value="Long Video" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-monitor"></use></svg></span>
+              <span class="chip-label">Long Video</span>
+            </label>
+          </div>
+          <p class="field-error" id="videoFormat-error" role="alert"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="field-label">Collaboration Type <span class="req" aria-hidden="true">*</span></legend>
+          <div class="option-group" data-group="collabType">
+            <label class="option-chip">
+              <input type="radio" name="collabType" value="Sponsored Content" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-tag"></use></svg></span>
+              <span class="chip-label">Sponsored Content</span>
+            </label>
+            <label class="option-chip">
+              <input type="radio" name="collabType" value="Product Review" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-star"></use></svg></span>
+              <span class="chip-label">Product Review</span>
+            </label>
+            <label class="option-chip">
+              <input type="radio" name="collabType" value="Brand Ambassadorship" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-badge"></use></svg></span>
+              <span class="chip-label">Brand Ambassadorship</span>
+            </label>
+            <label class="option-chip">
+              <input type="radio" name="collabType" value="Giveaway / Contest" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-gift"></use></svg></span>
+              <span class="chip-label">Giveaway / Contest</span>
+            </label>
+            <label class="option-chip">
+              <input type="radio" name="collabType" value="Affiliate Partnership" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-link"></use></svg></span>
+              <span class="chip-label">Affiliate Partnership</span>
+            </label>
+          </div>
+          <p class="field-error" id="collabType-error" role="alert"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="field-label">Collaboration Scope <span class="req" aria-hidden="true">*</span></legend>
+          <div class="option-group" data-group="collabScope">
+            <label class="option-chip">
+              <input type="radio" name="collabScope" value="One-Time Collaboration" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-flash"></use></svg></span>
+              <span class="chip-label">One-Time Collaboration</span>
+            </label>
+            <label class="option-chip">
+              <input type="radio" name="collabScope" value="Multiple Videos" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-layers"></use></svg></span>
+              <span class="chip-label">Multiple Videos</span>
+            </label>
+            <label class="option-chip">
+              <input type="radio" name="collabScope" value="Long-Term Partnership" required>
+              <span class="chip-icon"><svg class="icon"><use href="#icon-infinity"></use></svg></span>
+              <span class="chip-label">Long-Term Partnership</span>
+            </label>
+          </div>
+          <p class="field-error" id="collabScope-error" role="alert"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="field-label">
+            <svg class="icon icon-sm"><use href="#icon-calendar"></use></svg>
+            Select Date <span class="req" aria-hidden="true">*</span>
+          </legend>
+          <div class="date-group" data-group="date">
+            <select class="field-input field-select" id="selectDay" name="selectDay" required aria-label="Day">
+              <option value="" disabled selected>Day</option>
+            </select>
+            <select class="field-input field-select" id="selectMonth" name="selectMonth" required aria-label="Month">
+              <option value="" disabled selected>Month</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+            <select class="field-input field-select" id="selectYear" name="selectYear" required aria-label="Year">
+              <option value="" disabled selected>Year</option>
+            </select>
+          </div>
+          <p class="field-error" id="date-error" role="alert"></p>
+        </fieldset>
+      </div>
+
+      <!-- Tell Me More -->
+      <div class="form-block">
+        <h2 class="block-title">Tell Me More</h2>
+
+        <div class="field">
+          <label class="field-label" for="collabTopic">
+            <svg class="icon icon-sm"><use href="#icon-tag"></use></svg>
+            Collaboration Topic <span class="req" aria-hidden="true">*</span>
+          </label>
+          <input type="text" id="collabTopic" name="collabTopic" class="field-input" placeholder="e.g. Budget gaming headset review" required>
+          <p class="field-error" id="collabTopic-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="describeCollab">
+            <svg class="icon icon-sm"><use href="#icon-message-circle"></use></svg>
+            Describe Collaboration <span class="req" aria-hidden="true">*</span>
+          </label>
+          <textarea id="describeCollab" name="describeCollab" class="field-input field-textarea" rows="4" placeholder="What would this collaboration involve?" required></textarea>
+          <p class="field-error" id="describeCollab-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="notes">
+            <svg class="icon icon-sm"><use href="#icon-message-circle"></use></svg>
+            Notes <span class="req" aria-hidden="true">*</span>
+          </label>
+          <textarea id="notes" name="notes" class="field-input field-textarea" rows="3" placeholder="Timeline, expectations, or anything I should know" required></textarea>
+          <p class="field-error" id="notes-error" role="alert"></p>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="form-block">
+        <h2 class="block-title">Social Links <span class="opt">(optional)</span></h2>
+        <div class="social-grid">
+
+          <div class="social-row">
+            <span class="social-label"><span class="social-icon" style="--chip-accent:#FF3B30;"><svg class="icon icon-sm"><use href="#icon-play"></use></svg></span>YouTube</span>
+            <input type="url" class="field-input" id="socialYoutube" name="socialYoutube" placeholder="https://youtube.com/@yourchannel">
+          </div>
+
+          <div class="social-row">
+            <span class="social-label"><span class="social-icon" style="--chip-accent:#1877F2;"><svg class="icon icon-sm"><use href="#icon-chat"></use></svg></span>Facebook</span>
+            <input type="url" class="field-input" id="socialFacebook" name="socialFacebook" placeholder="https://facebook.com/yourpage">
+          </div>
+
+          <div class="social-row">
+            <span class="social-label"><span class="social-icon" style="--chip-accent:#E1306C;"><svg class="icon icon-sm"><use href="#icon-camera"></use></svg></span>Instagram</span>
+            <input type="url" class="field-input" id="socialInstagram" name="socialInstagram" placeholder="https://instagram.com/yourhandle">
+          </div>
+
+          <div class="social-row">
+            <span class="social-label"><span class="social-icon" style="--chip-accent:#0A66C2;"><svg class="icon icon-sm"><use href="#icon-briefcase"></use></svg></span>LinkedIn</span>
+            <input type="url" class="field-input" id="socialLinkedin" name="socialLinkedin" placeholder="https://linkedin.com/in/yourname">
+          </div>
+
+          <div class="social-row">
+            <span class="social-label"><span class="social-icon" style="--chip-accent:#1B1B1F;"><svg class="icon icon-sm"><use href="#icon-hash"></use></svg></span>X (Twitter)</span>
+            <input type="url" class="field-input" id="socialX" name="socialX" placeholder="https://x.com/yourhandle">
+          </div>
+
+        </div>
+        <p class="field-error" id="social-error" role="alert"></p>
+      </div>
+
+      <!-- Contact Details -->
+      <div class="form-block">
+        <h2 class="block-title">Contact Details</h2>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="businessNumber">
+              <svg class="icon icon-sm"><use href="#icon-phone"></use></svg>
+              Business Number <span class="req" aria-hidden="true">*</span>
+            </label>
+            <input type="tel" id="businessNumber" name="businessNumber" class="field-input" placeholder="+91 98765 43210" autocomplete="tel" required>
+            <p class="field-error" id="businessNumber-error" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="whatsappNumber">
+              <svg class="icon icon-sm"><use href="#icon-message-circle"></use></svg>
+              WhatsApp Number <span class="req" aria-hidden="true">*</span>
+            </label>
+            <input type="tel" id="whatsappNumber" name="whatsappNumber" class="field-input" placeholder="+91 98765 43210" autocomplete="tel" required>
+            <p class="field-error" id="whatsappNumber-error" role="alert"></p>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="email">
+              <svg class="icon icon-sm"><use href="#icon-mail"></use></svg>
+              Email <span class="req" aria-hidden="true">*</span>
+            </label>
+            <input type="email" id="email" name="email" class="field-input" placeholder="you@brand.com" autocomplete="email" required>
+            <p class="field-error" id="email-error" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="website">
+              <svg class="icon icon-sm"><use href="#icon-globe"></use></svg>
+              Website <span class="req" aria-hidden="true">*</span>
+            </label>
+            <input type="url" id="website" name="website" class="field-input" placeholder="https://yourbrand.com" autocomplete="url" required>
+            <p class="field-error" id="website-error" role="alert"></p>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">
+        <span class="btn-label">Submit Request</span>
+        <svg class="icon icon-sm btn-arrow"><use href="#icon-arrow"></use></svg>
+        <span class="btn-spinner" aria-hidden="true"></span>
+      </button>
+
+    </form>
+
+    <!-- Success state -->
+    <div class="success-card" id="successCard" hidden data-reveal>
+      <div class="success-icon"><svg class="icon"><use href="#icon-check-circle"></use></svg></div>
+      <h2>Request Sent!</h2>
+      <p id="successMessage">Thanks for reaching out — I'll get back to you soon.</p>
+      <button type="button" class="btn btn-secondary" id="resetFormBtn">Send Another Request</button>
+    </div>
+
+  </section>
+</main>
+
+<script src="form_function.js"></script>
+</body>
+</html>

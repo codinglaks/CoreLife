@@ -1,0 +1,47 @@
+
+# Environment variables and secrets
+backend/.env
+.env
+.env.*
+!.env.example
+
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node.js dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Deployment caches
+.vercel/
+.wrangler/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Local databases and private keys
+*.sqlite
+*.sqlite3
+*.db
+*.pem
+*.key
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
