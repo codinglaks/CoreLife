@@ -1,20 +1,20 @@
+
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "corelife",
   "main": "backend/worker.py",
-
-  /* Keep this date recent: Python network sockets (needed for Gmail SMTP)
-     are only available on newer compatibility dates. */
   "compatibility_date": "2026-10-01",
-  "compatibility_flags": ["python_workers"],
-
-  /* Your website stays where it is: the project folder is published
-     (only what .assetsignore allows) and only /api/* runs the backend. */
+  "compatibility_flags": [
+    "python_workers"
+  ],
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": [
+      "/api/*"
+    ]
   },
-
-  "observability": { "enabled": true }
+  "observability": {
+    "enabled": true
+  }
 }

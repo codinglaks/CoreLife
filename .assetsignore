@@ -1,0 +1,16 @@
+
+node_modules/
+.git/
+.wrangler/
+.venv/
+venv/
+__pycache__/
+backend/
+.assetsignore
+wrangler.jsonc
+pyproject.toml
+package.json
+package-lock.json
+README.md
+LICENSE
+requirements.txt
