@@ -847,10 +847,48 @@ def paypal_capture_order():
 # start of every request. Nothing else in this file had to change.
 # ---------------------------------------------------------------------
 
+def _cloudflare_env():
+    """Return Cloudflare's env object (variables + secrets), or None when
+    running locally."""
+    env = request.environ.get("workers.env")
+    if env is not None:
+        return env
+    try:
+        from workers import env as global_env  # documented fallback
+        return global_env
+    except Exception:  # noqa: BLE001 - not on Cloudflare
+        return None
+
+
+def _read_setting(env, name, default=""):
+    """Read one setting. Tries Cloudflare's env first, then os.environ.
+    Also cleans up values that were pasted with quotes or with a
+    'NAME=' prefix by mistake."""
+    value = None
+    try:
+        value = getattr(env, name, None)
+    except Exception:  # noqa: BLE001
+        value = None
+    if value is None:
+        try:
+            value = env[name]
+        except Exception:  # noqa: BLE001
+            value = None
+    if value is None:
+        value = os.environ.get(name)
+
+    value = str(value).strip() if value is not None else ""
+    if value.startswith(name + "="):
+        value = value[len(name) + 1:].strip()
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+        value = value[1:-1].strip()
+    return value or default
+
+
 @app.before_request
 def load_cloudflare_settings():
 
-    env = request.environ.get("workers.env")
+    env = _cloudflare_env()
 
     if env is None:
         return  # running locally: .env was already loaded
@@ -860,9 +898,7 @@ def load_cloudflare_settings():
     global PAYPAL_API_BASE, PAYPAL_CURRENCY, PAYPAL_SUPPORT_AMOUNT
 
     def setting(name, default=""):
-        value = getattr(env, name, None)
-        value = str(value).strip() if value is not None else ""
-        return value or default
+        return _read_setting(env, name, default)
 
     GMAIL_USER = setting("GMAIL_USER")
     GMAIL_APP_PASSWORD = setting("GMAIL_APP_PASSWORD")
@@ -882,6 +918,33 @@ def load_cloudflare_settings():
         PAYPAL_SUPPORT_AMOUNT = round(float(setting("PAYPAL_SUPPORT_AMOUNT", "5.00")), 2)
     except ValueError:
         PAYPAL_SUPPORT_AMOUNT = 5.00
+
+
+# ---------------------------------------------------------------------
+# TEMPORARY diagnostic route - DELETE this whole block after testing.
+# Shows only true/false for each setting, never the actual values.
+# ---------------------------------------------------------------------
+
+@app.route("/api/_diag", methods=["GET"])
+def diag():
+    names = ["GMAIL_USER", "GMAIL_APP_PASSWORD", "RECEIVER_EMAIL",
+             "PAYPAL_CLIENT_ID", "PAYPAL_SECRET", "PAYPAL_MODE",
+             "PAYPAL_CURRENCY", "PAYPAL_SUPPORT_AMOUNT"]
+    env = _cloudflare_env()
+    return jsonify({
+        "workers_env_in_request": request.environ.get("workers.env") is not None,
+        "cloudflare_env_found": env is not None,
+        "setting_found": {
+            n: (_read_setting(env, n) != "") if env is not None else False
+            for n in names
+        },
+        "loaded_into_app": {
+            "GMAIL_USER": bool(GMAIL_USER),
+            "GMAIL_APP_PASSWORD": bool(GMAIL_APP_PASSWORD),
+            "PAYPAL_CLIENT_ID": bool(PAYPAL_CLIENT_ID),
+            "PAYPAL_SECRET": bool(PAYPAL_SECRET),
+        },
+    })
 
 
 # ---------------------------------------------------------------------
