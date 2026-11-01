@@ -154,6 +154,58 @@ SMTP_TIMEOUT = 20
 
 
 # ---------------------------------------------------------------------
+# Email sending
+# ---------------------------------------------------------------------
+# Cloudflare's Python runtime cannot open a direct Gmail (SMTP) connection,
+# so on Cloudflare the emails go out through the Resend HTTPS API instead.
+# If RESEND_API_KEY is not set (for example on your own PC), the original
+# Gmail SMTP code is used exactly as before.
+
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
+RESEND_FROM = os.environ.get(
+    "RESEND_FROM",
+    "CoreLife <onboarding@resend.dev>"
+)
+
+
+def email_is_configured():
+    return bool(
+        RESEND_API_KEY
+        or (GMAIL_USER and GMAIL_APP_PASSWORD)
+    )
+
+
+def send_via_resend(subject, text, html=None, reply_to=None):
+    """Send one email to RECEIVER_EMAIL through the Resend API."""
+    payload = {
+        "from": RESEND_FROM,
+        "to": [RECEIVER_EMAIL],
+        "subject": subject,
+        "text": text,
+    }
+    if html:
+        payload["html"] = html
+    if reply_to:
+        payload["reply_to"] = reply_to
+
+    response = requests.post(
+        "https://api.resend.com/emails",
+        headers={
+            "Authorization": f"Bearer {RESEND_API_KEY}",
+            "Content-Type": "application/json",
+        },
+        json=payload,
+        timeout=SMTP_TIMEOUT,
+    )
+    if response.status_code >= 400:
+        print(
+            f"ERROR: Resend rejected the email "
+            f"({response.status_code}): {response.text}"
+        )
+    response.raise_for_status()
+
+
+# ---------------------------------------------------------------------
 # Validation patterns
 # ---------------------------------------------------------------------
 
@@ -452,7 +504,7 @@ def build_email_bodies(data):
 def submit_collab():
 
     # Check Gmail configuration
-    if not GMAIL_USER or not GMAIL_APP_PASSWORD:
+    if not email_is_configured():
 
         print(
             "ERROR: Missing GMAIL_USER or "
@@ -562,33 +614,55 @@ def submit_collab():
     # Send using Gmail SMTP
     try:
 
-        print(
-            "Connecting to Gmail SMTP..."
-        )
-
-        with smtplib.SMTP_SSL(
-            "smtp.gmail.com",
-            465,
-            timeout=SMTP_TIMEOUT,
-            context=SMTP_SSL_CONTEXT
-        ) as server:
-
-            server.login(
-                GMAIL_USER,
-                GMAIL_APP_PASSWORD
-            )
+        if RESEND_API_KEY:
 
             print(
-                "Gmail authentication successful."
+                "Sending through the Resend email API..."
             )
 
-            server.send_message(
-                msg
+            send_via_resend(
+                subject=str(msg["Subject"]),
+                text=text_body,
+                html=html_body,
+                reply_to=(
+                    str(msg["Reply-To"])
+                    if msg["Reply-To"] else None
+                ),
             )
 
             print(
                 "Collaboration email sent successfully."
             )
+
+        else:
+
+            print(
+                "Connecting to Gmail SMTP..."
+            )
+
+            with smtplib.SMTP_SSL(
+                "smtp.gmail.com",
+                465,
+                timeout=SMTP_TIMEOUT,
+                context=SMTP_SSL_CONTEXT
+            ) as server:
+
+                server.login(
+                    GMAIL_USER,
+                    GMAIL_APP_PASSWORD
+                )
+
+                print(
+                    "Gmail authentication successful."
+                )
+
+                server.send_message(
+                    msg
+                )
+
+                print(
+                    "Collaboration email sent successfully."
+                )
 
     except smtplib.SMTPAuthenticationError as exc:
 
@@ -716,7 +790,7 @@ def send_support_notification(amount, currency, payer_name, payer_email):
     Gmail SMTP setup as the collaboration form. If this fails for any
     reason, it must NOT break the actual payment - the money already
     moved, so this only logs a warning and moves on."""
-    if not GMAIL_USER or not GMAIL_APP_PASSWORD:
+    if not email_is_configured():
         return
     try:
         msg = MIMEText(
@@ -731,9 +805,15 @@ def send_support_notification(amount, currency, payer_name, payer_email):
         )
         msg["From"] = GMAIL_USER
         msg["To"] = RECEIVER_EMAIL
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=SMTP_TIMEOUT, context=SMTP_SSL_CONTEXT) as server:
-            server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-            server.send_message(msg)
+        if RESEND_API_KEY:
+            send_via_resend(
+                subject=str(msg["Subject"]),
+                text=msg.get_payload(decode=True).decode("utf-8"),
+            )
+        else:
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=SMTP_TIMEOUT, context=SMTP_SSL_CONTEXT) as server:
+                server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
+                server.send_message(msg)
     except Exception as exc:  # noqa: BLE001 - notification only, never fatal
         print(f"WARNING: support notification email failed (payment was still fine): {exc}")
 
@@ -894,6 +974,7 @@ def load_cloudflare_settings():
         return  # running locally: .env was already loaded
 
     global GMAIL_USER, GMAIL_APP_PASSWORD, RECEIVER_EMAIL
+    global RESEND_API_KEY, RESEND_FROM
     global PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_MODE
     global PAYPAL_API_BASE, PAYPAL_CURRENCY, PAYPAL_SUPPORT_AMOUNT
 
@@ -903,6 +984,8 @@ def load_cloudflare_settings():
     GMAIL_USER = setting("GMAIL_USER")
     GMAIL_APP_PASSWORD = setting("GMAIL_APP_PASSWORD")
     RECEIVER_EMAIL = setting("RECEIVER_EMAIL", "crzysupptant@gmail.com")
+    RESEND_API_KEY = setting("RESEND_API_KEY")
+    RESEND_FROM = setting("RESEND_FROM", "CoreLife <onboarding@resend.dev>")
 
     PAYPAL_CLIENT_ID = setting("PAYPAL_CLIENT_ID")
     PAYPAL_SECRET = setting("PAYPAL_SECRET")
@@ -918,33 +1001,6 @@ def load_cloudflare_settings():
         PAYPAL_SUPPORT_AMOUNT = round(float(setting("PAYPAL_SUPPORT_AMOUNT", "5.00")), 2)
     except ValueError:
         PAYPAL_SUPPORT_AMOUNT = 5.00
-
-
-# ---------------------------------------------------------------------
-# TEMPORARY diagnostic route - DELETE this whole block after testing.
-# Shows only true/false for each setting, never the actual values.
-# ---------------------------------------------------------------------
-
-@app.route("/api/_diag", methods=["GET"])
-def diag():
-    names = ["GMAIL_USER", "GMAIL_APP_PASSWORD", "RECEIVER_EMAIL",
-             "PAYPAL_CLIENT_ID", "PAYPAL_SECRET", "PAYPAL_MODE",
-             "PAYPAL_CURRENCY", "PAYPAL_SUPPORT_AMOUNT"]
-    env = _cloudflare_env()
-    return jsonify({
-        "workers_env_in_request": request.environ.get("workers.env") is not None,
-        "cloudflare_env_found": env is not None,
-        "setting_found": {
-            n: (_read_setting(env, n) != "") if env is not None else False
-            for n in names
-        },
-        "loaded_into_app": {
-            "GMAIL_USER": bool(GMAIL_USER),
-            "GMAIL_APP_PASSWORD": bool(GMAIL_APP_PASSWORD),
-            "PAYPAL_CLIENT_ID": bool(PAYPAL_CLIENT_ID),
-            "PAYPAL_SECRET": bool(PAYPAL_SECRET),
-        },
-    })
 
 
 # ---------------------------------------------------------------------
