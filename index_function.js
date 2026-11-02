@@ -68,35 +68,43 @@ function initScrollReveal() {
 
     if (!targets.length) return;
 
-    // Skip animation for reduced-motion users
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        targets.forEach((el) => el.classList.add('js-reveal', 'is-visible'));
+    // Reduced-motion users (or very old browsers) just see everything straight away
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
         return;
     }
 
-    targets.forEach((el, index) => {
+    // Cards already on screen stay visible (no hide-then-show flicker); only cards below the fold fade in
+    const viewportH = window.innerHeight || document.documentElement.clientHeight;
+    const pending = [];
+    targets.forEach((el) => {
+        if (el.getBoundingClientRect().top < viewportH * 0.95) return;
         el.classList.add('js-reveal');
-        el.style.setProperty('--reveal-delay', `${(index % 3) * 0.1}s`);
+        pending.push(el);
     });
 
-    if (!('IntersectionObserver' in window)) {
-        targets.forEach((el) => el.classList.add('is-visible'));
-        return;
-    }
+    if (!pending.length) return;
 
     const observer = new IntersectionObserver(
         (entries) => {
+            let order = 0;
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                el.style.setProperty('--reveal-delay', `${Math.min(order++, 3) * 0.08}s`);
+                el.classList.add('is-visible');
+                observer.unobserve(el);
+
+                // Once the fade-in is done, drop the helper classes so normal hover effects come back
+                window.setTimeout(() => {
+                    el.classList.remove('js-reveal', 'is-visible');
+                    el.style.removeProperty('--reveal-delay');
+                }, 1000);
             });
         },
-        { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }
     );
 
-    targets.forEach((el) => observer.observe(el));
+    pending.forEach((el) => observer.observe(el));
 }
 
 /* Card spotlight */
@@ -106,13 +114,34 @@ function initCardSpotlight() {
     const cards = document.querySelectorAll('.profile-banner, .glass-card');
 
     cards.forEach((card) => {
-        card.addEventListener('mousemove', (event) => {
-            const rect = card.getBoundingClientRect();
-            const x = ((event.clientX - rect.left) / rect.width) * 100;
-            const y = ((event.clientY - rect.top) / rect.height) * 100;
+        let rect = null;
+        let rectAt = 0;
+        let frame = 0;
+        let pointerX = 0;
+        let pointerY = 0;
+
+        // Update once per animation frame instead of on every mouse event
+        const update = () => {
+            frame = 0;
+            const x = ((pointerX - rect.left) / rect.width) * 100;
+            const y = ((pointerY - rect.top) / rect.height) * 100;
             card.style.setProperty('--mx', `${x}%`);
             card.style.setProperty('--my', `${y}%`);
+        };
+
+        card.addEventListener('mousemove', (event) => {
+            const now = performance.now();
+            // Measure the card at most every 150ms (it only changes when the page scrolls)
+            if (!rect || now - rectAt > 150) {
+                rect = card.getBoundingClientRect();
+                rectAt = now;
+            }
+            pointerX = event.clientX;
+            pointerY = event.clientY;
+            if (!frame) frame = window.requestAnimationFrame(update);
         });
+
+        card.addEventListener('mouseleave', () => { rect = null; });
     });
 }
 

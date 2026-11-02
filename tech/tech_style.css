@@ -1337,3 +1337,30 @@ html {
         gap: 8px;
     }
 }
+
+/* ===================================================================
+   Performance fixes (Nov 2026)
+   =================================================================== */
+/* Fixed page background: a fixed background-attachment is re-painted on every scroll and breaks pinch-zoom on phones.
+   The same gradient now lives on one fixed layer that is painted once. */
+body{ background: transparent; }
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--bg-black);
+  background-image: var(--bg-gradient);
+  background-size: cover;
+  transition: background-color 0.4s ease;
+}
+
+/* These glow circles sit behind the opaque page background, so they were never visible,
+   but still ran a 120px blur animation. Removed with no change to the look. */
+.blur-orb{ display: none; }
+
+/* Skip the live blur behind cards on phones and touch screens */
+@media (max-width: 900px), (hover: none){
+  .glass-card{ -webkit-backdrop-filter: none; backdrop-filter: none; }
+}

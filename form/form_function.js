@@ -16,27 +16,34 @@
     });
   }
 
-  /* Scroll reveal (IntersectionObserver) */
+  /* Scroll reveal (IntersectionObserver)
+     Items already on screen stay visible straight away; only items below the fold fade in. */
   const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
 
   if (prefersReducedMotion || !('IntersectionObserver' in window)) {
     revealEls.forEach((el) => el.classList.add('is-visible'));
   } else {
-    revealEls.forEach((el, i) => { el.style.transitionDelay = i * 80 + 'ms'; });
+    const viewportH = window.innerHeight || document.documentElement.clientHeight;
+    const pendingEls = revealEls.filter((el) => el.getBoundingClientRect().top >= viewportH * 0.95);
+    pendingEls.forEach((el) => el.classList.add('is-pending'));
 
     const revealObserver = new IntersectionObserver(
       (entries, observer) => {
+        let order = 0;
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          // Small stagger for items revealed together; cleared afterwards so hover effects stay instant
+          el.style.transitionDelay = Math.min(order++, 4) * 70 + 'ms';
+          el.classList.add('is-visible');
+          el.classList.remove('is-pending');
+          observer.unobserve(el);
+          window.setTimeout(() => { el.style.transitionDelay = ''; }, 1000);
         });
       },
-      // Threshold 0 so tall elements still reveal on small screens
       { threshold: 0, rootMargin: '0px 0px -30px 0px' }
     );
-    revealEls.forEach((el) => revealObserver.observe(el));
+    pendingEls.forEach((el) => revealObserver.observe(el));
   }
 
   /* Date selectors */

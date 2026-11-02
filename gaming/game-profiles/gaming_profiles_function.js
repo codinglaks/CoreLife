@@ -16,28 +16,34 @@
     });
   }
 
-  /* Scroll reveal (threshold 0 so tall elements still show) */
-  const revealEls = Array.from(document.querySelectorAll('.js-reveal'));
+  /* Scroll reveal (threshold 0 so tall elements still show)
+     Cards already on screen stay visible straight away; only cards below the fold fade in. */
+  const revealEls = Array.from(document.querySelectorAll('.profile-card'));
 
-  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-    revealEls.forEach((el) => el.classList.add('is-visible'));
-  } else {
-    revealEls.forEach((el, i) => {
-      el.style.setProperty('--reveal-delay', (i % 8) * 70 + 'ms');
-    });
+  if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+    const viewportH = window.innerHeight || document.documentElement.clientHeight;
+    const pendingEls = revealEls.filter((el) => el.getBoundingClientRect().top >= viewportH * 0.95);
+    pendingEls.forEach((el) => el.classList.add('js-reveal'));
 
     const revealObserver = new IntersectionObserver(
       (entries, observer) => {
+        let order = 0;
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          el.style.setProperty('--reveal-delay', Math.min(order++, 4) * 70 + 'ms');
+          el.classList.add('is-visible');
+          observer.unobserve(el);
+          // Once the fade-in is done, drop the helper classes so hover effects work normally
+          window.setTimeout(() => {
+            el.classList.remove('js-reveal', 'is-visible');
+            el.style.removeProperty('--reveal-delay');
+          }, 1000);
         });
       },
       { threshold: 0, rootMargin: '0px 0px -30px 0px' }
     );
-    revealEls.forEach((el) => revealObserver.observe(el));
+    pendingEls.forEach((el) => revealObserver.observe(el));
   }
 
   /* Lightbox */
@@ -49,7 +55,8 @@
 
   function openLightbox(imgEl, gameName) {
     lastFocusedEl = document.activeElement;
-    lightboxImg.src = imgEl.src;
+    // Use the larger version of the image in the viewer (the grid shows a lighter one)
+    lightboxImg.src = imgEl.dataset.full || imgEl.currentSrc || imgEl.src;
     lightboxImg.alt = imgEl.alt;
     lightboxCaption.textContent = gameName;
     lightbox.hidden = false;
@@ -62,9 +69,9 @@
   function closeLightbox() {
     lightbox.classList.remove('is-open');
     document.body.style.overflow = '';
+    // Keep the image loaded so reopening it is instant (no blank flash)
     window.setTimeout(() => {
       lightbox.hidden = true;
-      lightboxImg.src = '';
     }, prefersReducedMotion ? 0 : 300);
     if (lastFocusedEl) lastFocusedEl.focus();
   }
@@ -77,6 +84,18 @@
     frame.setAttribute('tabindex', '0');
     frame.setAttribute('role', 'button');
     frame.setAttribute('aria-label', `View ${gameName} player ID larger`);
+
+    // Start fetching the larger image as soon as someone shows interest, so the viewer opens instantly
+    const prefetchFull = () => {
+      if (img.dataset.full && !img.dataset.prefetched) {
+        img.dataset.prefetched = '1';
+        const pre = new Image();
+        pre.src = img.dataset.full;
+      }
+    };
+    frame.addEventListener('pointerenter', prefetchFull, { once: true });
+    frame.addEventListener('touchstart', prefetchFull, { once: true, passive: true });
+    frame.addEventListener('focus', prefetchFull, { once: true });
 
     frame.addEventListener('click', () => openLightbox(img, gameName));
     frame.addEventListener('keydown', (e) => {

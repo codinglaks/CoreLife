@@ -209,9 +209,10 @@ main{ max-width: 880px; margin: 0 auto; padding: 0 28px 100px; }
 .support-section{ padding: 56px 0; }
 
 [data-reveal]{
-  opacity: 0; transform: translateY(18px);
   transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
 }
+/* Only items below the fold are hidden (set by JS), so content on screen never waits for a script */
+[data-reveal].is-pending{ opacity: 0; transform: translateY(18px); }
 [data-reveal].is-visible{ opacity: 1; transform: translateY(0); }
 
 .support-intro{ text-align: center; margin-bottom: 46px; }
@@ -404,4 +405,50 @@ html{ scrollbar-width: thin; scrollbar-color: var(--purple) transparent; }
   .brand{ font-size: 1rem; }
   main{ padding: 0 12px 64px; }
   .region-card{ padding: 16px 12px; }
+}
+
+/* ===================================================================
+   Performance fixes (Nov 2026)
+   =================================================================== */
+/* The mesh glow is already built from soft radial gradients, so the extra blur only cost GPU time */
+body::after,
+[data-theme="dark"] body::after{ filter: none; }
+
+/* Without the blur, the gradients are made a little larger and fainter so the glow keeps the same soft look */
+body::after{ background-image:
+    radial-gradient(30.8% 26.4% at 10% 6%, color-mix(in srgb, var(--purple) 47%, transparent), transparent 70%),
+    radial-gradient(28.6% 24.2% at 88% 4%, color-mix(in srgb, var(--pink-red) 41%, transparent), transparent 70%),
+    radial-gradient(37.4% 33.0% at 95% 62%, color-mix(in srgb, var(--cream) 60%, transparent), transparent 72%),
+    radial-gradient(26.4% 24.2% at 14% 68%, color-mix(in srgb, var(--pink-red) 29%, transparent), transparent 72%),
+    radial-gradient(33.0% 28.6% at 55% 100%, color-mix(in srgb, var(--purple) 36%, transparent), transparent 72%); }
+[data-theme="dark"] body::after{ background-image:
+    radial-gradient(33.0% 28.6% at 8% 4%, color-mix(in srgb, var(--purple) 51%, transparent), transparent 72%),
+    radial-gradient(28.6% 26.4% at 92% 10%, color-mix(in srgb, var(--pink-red) 39%, transparent), transparent 72%),
+    radial-gradient(35.2% 30.8% at 100% 66%, color-mix(in srgb, var(--cream) 19%, transparent), transparent 74%),
+    radial-gradient(28.6% 26.4% at 10% 72%, color-mix(in srgb, var(--pink-red) 26%, transparent), transparent 74%),
+    radial-gradient(37.4% 33.0% at 50% 102%, color-mix(in srgb, var(--purple) 39%, transparent), transparent 74%); }
+@media (max-width: 700px){
+  body::after{ background-image:
+      radial-gradient(39.2% 33.6% at 10% 6%, color-mix(in srgb, var(--purple) 22%, transparent), transparent 70%),
+      radial-gradient(36.4% 30.8% at 88% 4%, color-mix(in srgb, var(--pink-red) 19%, transparent), transparent 70%),
+      radial-gradient(47.6% 42.0% at 95% 62%, color-mix(in srgb, var(--cream) 28%, transparent), transparent 72%),
+      radial-gradient(33.6% 30.8% at 14% 68%, color-mix(in srgb, var(--pink-red) 14%, transparent), transparent 72%),
+      radial-gradient(42.0% 36.4% at 55% 100%, color-mix(in srgb, var(--purple) 17%, transparent), transparent 72%); }
+  [data-theme="dark"] body::after{ background-image:
+      radial-gradient(42.0% 36.4% at 8% 4%, color-mix(in srgb, var(--purple) 24%, transparent), transparent 72%),
+      radial-gradient(36.4% 33.6% at 92% 10%, color-mix(in srgb, var(--pink-red) 18%, transparent), transparent 72%),
+      radial-gradient(44.8% 39.2% at 100% 66%, color-mix(in srgb, var(--cream) 9%, transparent), transparent 74%),
+      radial-gradient(36.4% 33.6% at 10% 72%, color-mix(in srgb, var(--pink-red) 12%, transparent), transparent 74%),
+      radial-gradient(47.6% 42.0% at 50% 102%, color-mix(in srgb, var(--purple) 18%, transparent), transparent 74%); }
+}
+
+/* Slow drift only on desktop; static on phones, touch screens and for reduced-motion users */
+body::after{ animation: none; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference){
+  body::after{ animation: meshDrift 34s var(--ease) infinite alternate; will-change: transform; }
+}
+
+/* Payment cards: skip the live blur on phones and touch screens */
+@media (max-width: 900px), (hover: none){
+  .region-card{ -webkit-backdrop-filter: none; backdrop-filter: none; }
 }

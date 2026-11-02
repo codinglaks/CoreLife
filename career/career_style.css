@@ -276,10 +276,10 @@ main{ max-width: 1180px; margin: 0 auto; padding: 0 28px; }
 
 /* Scroll reveal */
 [data-reveal]{
-  opacity: 0;
-  transform: translateY(22px);
   transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
 }
+/* Only items below the fold are hidden (set by JS), so content on screen never waits for a script */
+[data-reveal].is-pending{ opacity: 0; transform: translateY(22px); }
 [data-reveal].is-visible{ opacity: 1; transform: translateY(0); }
 
 /* Hero */
@@ -643,4 +643,50 @@ html{
   .theme-toggle{ width: 32px; height: 32px; }
   main{ padding: 0 14px; }
   .hero-frame{ width: min(230px, 62vw); }
+}
+
+/* ===================================================================
+   Performance fixes (Nov 2026)
+   =================================================================== */
+/* The mesh glow is already built from soft radial gradients, so the extra blur only cost GPU time */
+body::after,
+[data-theme="dark"] body::after{ filter: none; }
+
+/* Without the blur, the gradients are made a little larger and fainter so the glow keeps the same soft look */
+body::after{ background-image:
+    radial-gradient(30.8% 26.4% at 10% 6%, color-mix(in srgb, var(--purple) 47%, transparent), transparent 70%),
+    radial-gradient(28.6% 24.2% at 88% 4%, color-mix(in srgb, var(--pink-red) 41%, transparent), transparent 70%),
+    radial-gradient(37.4% 33.0% at 95% 62%, color-mix(in srgb, var(--cream) 60%, transparent), transparent 72%),
+    radial-gradient(26.4% 24.2% at 14% 68%, color-mix(in srgb, var(--pink-red) 29%, transparent), transparent 72%),
+    radial-gradient(33.0% 28.6% at 55% 100%, color-mix(in srgb, var(--purple) 36%, transparent), transparent 72%); }
+[data-theme="dark"] body::after{ background-image:
+    radial-gradient(33.0% 28.6% at 8% 4%, color-mix(in srgb, var(--purple) 51%, transparent), transparent 72%),
+    radial-gradient(28.6% 26.4% at 92% 10%, color-mix(in srgb, var(--pink-red) 39%, transparent), transparent 72%),
+    radial-gradient(35.2% 30.8% at 100% 66%, color-mix(in srgb, var(--cream) 19%, transparent), transparent 74%),
+    radial-gradient(28.6% 26.4% at 10% 72%, color-mix(in srgb, var(--pink-red) 26%, transparent), transparent 74%),
+    radial-gradient(37.4% 33.0% at 50% 102%, color-mix(in srgb, var(--purple) 39%, transparent), transparent 74%); }
+@media (max-width: 700px){
+  body::after{ background-image:
+      radial-gradient(39.2% 33.6% at 10% 6%, color-mix(in srgb, var(--purple) 22%, transparent), transparent 70%),
+      radial-gradient(36.4% 30.8% at 88% 4%, color-mix(in srgb, var(--pink-red) 19%, transparent), transparent 70%),
+      radial-gradient(47.6% 42.0% at 95% 62%, color-mix(in srgb, var(--cream) 28%, transparent), transparent 72%),
+      radial-gradient(33.6% 30.8% at 14% 68%, color-mix(in srgb, var(--pink-red) 14%, transparent), transparent 72%),
+      radial-gradient(42.0% 36.4% at 55% 100%, color-mix(in srgb, var(--purple) 17%, transparent), transparent 72%); }
+  [data-theme="dark"] body::after{ background-image:
+      radial-gradient(42.0% 36.4% at 8% 4%, color-mix(in srgb, var(--purple) 24%, transparent), transparent 72%),
+      radial-gradient(36.4% 33.6% at 92% 10%, color-mix(in srgb, var(--pink-red) 18%, transparent), transparent 72%),
+      radial-gradient(44.8% 39.2% at 100% 66%, color-mix(in srgb, var(--cream) 9%, transparent), transparent 74%),
+      radial-gradient(36.4% 33.6% at 10% 72%, color-mix(in srgb, var(--pink-red) 12%, transparent), transparent 74%),
+      radial-gradient(47.6% 42.0% at 50% 102%, color-mix(in srgb, var(--purple) 18%, transparent), transparent 74%); }
+}
+
+/* Slow drift only on desktop; static on phones, touch screens and for reduced-motion users */
+body::after{ animation: none; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference){
+  body::after{ animation: meshDrift 34s var(--ease) infinite alternate; will-change: transform; }
+}
+
+/* Small decorative glows: no endless animation on phones */
+@media (hover: none){
+  .hero-glow, .hero-media::before{ animation: none; }
 }

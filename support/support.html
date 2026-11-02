@@ -7,9 +7,10 @@
 <script src="../theme.js"></script>
 <meta name="description" content="Support CoreLife via UPI (India) or PayPal (worldwide).">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="../media/fonts/plus-jakarta-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../media/fonts/space-grotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://www.paypal.com">
+<link rel="stylesheet" href="../media/fonts/fonts.css">
 
 <link rel="stylesheet" href="support_style.css">
 </head>
@@ -75,7 +76,7 @@
         <!-- UPI block -->
         <div class="upi-block">
           <div class="upi-qr">
-            <img src="../media/qr-img/qr_img_2.png" alt="UPI QR code for CoreLife">
+            <img src="../media/qr-img/qr_img_2.png" alt="UPI QR code for CoreLife" loading="lazy" decoding="async">
           </div>
           <div class="upi-details">
             <span class="upi-label">UPI ID</span>

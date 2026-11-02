@@ -1328,3 +1328,36 @@ footer i {
         scroll-behavior: auto !important;
     }
 }
+
+/* ===================================================================
+   Performance fixes (Nov 2026)
+   =================================================================== */
+/* Fixed page background: a fixed background-attachment is re-painted on every scroll and breaks pinch-zoom on phones.
+   The dark-theme gradient now lives on one fixed layer that is painted once (light theme keeps its own background). */
+body{ background: var(--bg-black); }
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(230, 57, 80, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 88% 18%, rgba(138, 63, 174, 0.18) 0%, transparent 50%),
+        radial-gradient(circle at 50% 100%, rgba(212, 175, 106, 0.10) 0%, transparent 55%),
+        linear-gradient(180deg, var(--bg-black-2) 0%, var(--bg-black) 40%, var(--bg-black-2) 100%);
+}
+html[data-theme="light"] body::before{ display: none; }
+
+/* The glow circles are already soft gradients, so the extra blur filter only cost GPU time */
+.blur-orb{ filter: none; }
+
+/* Orbs drift only on desktop; static on phones, touch screens and for reduced-motion users */
+@media (hover: none), (max-width: 768px), (prefers-reduced-motion: reduce){
+  .blur-orb{ animation: none; will-change: auto; }
+}
+
+/* Skip the live blur behind cards on phones and touch screens */
+@media (max-width: 900px), (hover: none){
+  .glass-card, .banner-card{ -webkit-backdrop-filter: none; backdrop-filter: none; }
+}

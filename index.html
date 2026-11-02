@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="index_style.css">
 
     <!-- Fonts & icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preload" href="media/fonts/plus-jakarta-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="media/fonts/sora-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="media/fonts/fa-solid-subset.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="media/fonts/fonts.css">
 </head>
 <body>
 
@@ -24,7 +24,7 @@
     <header>
         <div class="nav-wrapper">
             <a href="career/career.html" class="brand-left" aria-label="Go to Career page">
-                <img src="media/logo-img/career_logo_pic.jpeg" alt="CoreLife logo" class="brand-logo-small">
+                <img src="media/logo-img/career_logo_pic_sm.webp" alt="CoreLife logo" class="brand-logo-small" decoding="async">
                 <div class="brand-text">
                     <h1>Core<span>Life</span></h1>
                 </div>
@@ -74,7 +74,7 @@
                 <span class="dot-pattern" aria-hidden="true"></span>
                 <span class="outline-shape" aria-hidden="true"></span>
                 <div class="about-photo-frame">
-                    <img src="media/logo-img/career_logo_pic.jpeg" alt="Lakshya Singh" class="about-photo">
+                    <img src="media/logo-img/career_logo_pic.webp" alt="Lakshya Singh" class="about-photo" fetchpriority="high" decoding="async">
                 </div>
             </div>
 
@@ -108,10 +108,10 @@
             <div class="profiles-grid">
                 <article class="profile-card">
                     <div class="profile-banner">
-                        <img src="media/banner-img/gaming_banner_pic.png" alt="The Gaminggram banner" class="profile-banner-img">
+                        <img src="media/banner-img/gaming_banner_pic_md.webp" alt="The Gaminggram banner" class="profile-banner-img" loading="lazy" decoding="async">
                         <div class="profile-banner-overlay"></div>
                         <div class="profile-banner-info">
-                            <img src="media/logo-img/gaming_profile_pic.png" alt="The Gaminggram logo" class="profile-logo">
+                            <img src="media/logo-img/gaming_profile_pic.webp" alt="The Gaminggram logo" class="profile-logo" loading="lazy" decoding="async">
                             <span class="profile-name">The Gaminggram</span>
                         </div>
                     </div>
@@ -123,10 +123,10 @@
 
                 <article class="profile-card">
                     <div class="profile-banner">
-                        <img src="media/banner-img/tech_banner_pic.png" alt="Bit Sa Gyan banner" class="profile-banner-img">
+                        <img src="media/banner-img/tech_banner_pic_md.webp" alt="Bit Sa Gyan banner" class="profile-banner-img" loading="lazy" decoding="async">
                         <div class="profile-banner-overlay"></div>
                         <div class="profile-banner-info">
-                            <img src="media/logo-img/tech_profile_pic.png" alt="Bit Sa Gyan logo" class="profile-logo">
+                            <img src="media/logo-img/tech_profile_pic.webp" alt="Bit Sa Gyan logo" class="profile-logo" loading="lazy" decoding="async">
                             <span class="profile-name">Bit Sa Gyan</span>
                         </div>
                     </div>
@@ -138,10 +138,10 @@
 
                 <article class="profile-card">
                     <div class="profile-banner">
-                        <img src="media/banner-img/Visual_artist_banner_pic.png" alt="Crazy Akshat banner" class="profile-banner-img">
+                        <img src="media/banner-img/Visual_artist_banner_pic_md.webp" alt="Crazy Akshat banner" class="profile-banner-img" loading="lazy" decoding="async">
                         <div class="profile-banner-overlay"></div>
                         <div class="profile-banner-info">
-                            <img src="media/logo-img/visual_artist_logo_pic.png" alt="Crazy Akshat logo" class="profile-logo">
+                            <img src="media/logo-img/visual_artist_logo_pic.webp" alt="Crazy Akshat logo" class="profile-logo" loading="lazy" decoding="async">
                             <span class="profile-name script-name">𝒞𝓇𝒶𝓏𝓎 𝒜𝓀𝓈𝒽𝒶𝓉</span>
                         </div>
                     </div>

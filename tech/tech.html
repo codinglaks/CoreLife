@@ -7,12 +7,12 @@
 <script src="../theme.js"></script>
 
     <!-- Fonts & icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preload" href="../media/fonts/plus-jakarta-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../media/fonts/space-grotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../media/fonts/fa-solid-subset.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../media/fonts/fonts.css">
     <link rel="stylesheet" href="tech_style.css">
-    <script src="tech_function.js"></script>
+    <script src="tech_function.js" defer></script>
 
 </head>
 <body>
@@ -31,21 +31,21 @@
                 <div class="brand-left">
                 <div class="logo-switcher" id="logoSwitcher">
                     <button type="button" class="logo-switcher-trigger" id="logoSwitcherTrigger" aria-haspopup="true" aria-expanded="false" aria-label="Switch between CoreLife sites">
-                        <img src="../media/logo-img/tech_profile_pic.png" alt="Bit Sa Gyan logo" class="brand-logo-small">
+                        <img src="../media/logo-img/tech_profile_pic.webp" alt="Bit Sa Gyan logo" class="brand-logo-small" decoding="async">
                         <span class="logo-switcher-badge" aria-hidden="true"><i class="fa-solid fa-ellipsis"></i></span>
                     </button>
 
                     <div class="logo-switcher-fan" id="logoSwitcherFan" aria-hidden="true">
                         <a href="../gaming/gaming.html" class="switcher-node pos-1" aria-label="Go to The Gaminggram">
-                            <img src="../media/logo-img/gaming_profile_pic.png" alt="The Gaminggram">
+                            <img loading="lazy" decoding="async" src="../media/logo-img/gaming_profile_pic.webp" alt="The Gaminggram">
                         </a>
 
                         <span class="switcher-node switcher-node-current pos-2" aria-current="page" title="Bit Sa Gyan — you're here">
-                            <img src="../media/logo-img/tech_profile_pic.png" alt="Bit Sa Gyan">
+                            <img loading="lazy" decoding="async" src="../media/logo-img/tech_profile_pic.webp" alt="Bit Sa Gyan">
                         </span>
 
                         <a href="../visual-artist/pic_vdo.html" class="switcher-node pos-3" aria-label="Go to Crazy Akshat">
-                            <img src="../media/logo-img/visual_artist_logo_pic.png" alt="Crazy Akshat">
+                            <img loading="lazy" decoding="async" src="../media/logo-img/visual_artist_logo_pic.webp" alt="Crazy Akshat">
                         </a>
                     </div>
                 </div>
@@ -83,10 +83,10 @@
         <section id="about" class="about-hero-section">
             <div class="banner-card">
                 <div class="banner-wrapper">
-                    <img src="../media/banner-img/tech_banner_pic.png" alt="Bit Sa Gyan banner" class="banner-img">
+                    <img src="../media/banner-img/tech_banner_pic.webp" alt="Bit Sa Gyan banner" class="banner-img" fetchpriority="high" decoding="async">
                     <div class="banner-overlay"></div>
                     <div class="banner-bottom-left">
-                        <img src="../media/logo-img/tech_profile_pic.png" alt="Bit Sa Gyan logo" class="hero-logo">
+                        <img src="../media/logo-img/tech_profile_pic.webp" alt="Bit Sa Gyan logo" class="hero-logo" decoding="async">
                         <h2 class="hero-title">Bit Sa Gyan</h2>
                     </div>
                 </div>
@@ -245,7 +245,7 @@
 
                     <div class="donate-box">
                         <div class="qr-wrapper">
-                            <img src="../media/qr-img/qr_img_2.png" alt="UPI QR code">
+                            <img src="../media/qr-img/qr_img_2.png" alt="UPI QR code" loading="lazy" decoding="async">
                         </div>
 
                         <div class="upi-details">

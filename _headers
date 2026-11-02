@@ -1,0 +1,4 @@
+# Cloudflare static-assets headers: let browsers keep fonts and images for 30 days so repeat visits load instantly.
+# Note: if you ever replace an image or font, give the new file a new name (or wait for the cache to expire).
+/media/*
+  Cache-Control: public, max-age=2592000
