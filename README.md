@@ -25,13 +25,13 @@
 
 | Site | Description | Link |
 |---|---|---|
-| 🏠 **CoreLife Home** | The main hub | [Visit]() |
-| 💼 **Career** | Professional profile and portfolio | [Visit]() |
-| 🎮 **The Gaminggram** | Gaming content | [Visit]() |
-| 💻 **Bit Sa Gyan** | Tech content | [Visit]() |
-| 🎨 **Crazy Akshat** | Visual artist and creator | [Visit]() |
-| 🤝 **Collaboration Form** | Work with us | [Visit]() |
-| 💖 **Support** | Support the projects | [Visit]() |
+| 🏠 **CoreLife Home** | The main hub | [Visit](https://corelife.connect-lakshya.workers.dev/) |
+| 💼 **Career** | Professional profile and portfolio | [Visit](https://corelife.connect-lakshya.workers.dev/career/career) |
+| 🎮 **The Gaminggram** | Gaming content | [Visit](https://corelife.connect-lakshya.workers.dev/gaming/gaming) |
+| 💻 **Bit Sa Gyan** | Tech content | [Visit](https://corelife.connect-lakshya.workers.dev/tech/tech) |
+| 🎨 **Crazy Akshat** | Visual artist and creator | [Visit](https://corelife.connect-lakshya.workers.dev/visual-artist/pic_vdo) |
+| 🤝 **Collaboration Form** | Work with us | [Visit](https://corelife.connect-lakshya.workers.dev/form/form) |
+| 💖 **Support** | Support the projects | [Visit](https://corelife.connect-lakshya.workers.dev/support/support) |
 
 ---
 
